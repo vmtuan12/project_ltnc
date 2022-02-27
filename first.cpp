@@ -2,5 +2,5 @@
 using namespace std;
 int main()
 {
-    // bai lam
+    // sau bay tam
 }
