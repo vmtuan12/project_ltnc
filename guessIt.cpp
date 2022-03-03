@@ -2,6 +2,7 @@
 #include <time.h>
 #include <sstream>
 #include <cstdlib>
+#include <algorithm>
 using namespace std;
 
 void play()
