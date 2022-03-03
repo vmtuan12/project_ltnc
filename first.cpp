@@ -2,5 +2,6 @@
 using namespace std;
 int main()
 {
-    //1231231231231
+    int a;
+    cin >> a;
 }
