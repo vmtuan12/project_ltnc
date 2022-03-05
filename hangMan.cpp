@@ -48,6 +48,9 @@ string convertToString(char* a, int size)
 
 void firstDisplay(string word)
 {
+    for(int i = 1; i <= 20; i++){
+        cout << "*" << endl;
+    }
     cout << "Game start" << endl
          << "  --------" << endl 
          << "  |" << endl << "  |" << endl <<  "  |" << endl << "  |" << endl
