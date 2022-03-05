@@ -183,7 +183,7 @@ string guessAns(string s)
 {
     string ans;
     cout << "Press '1' if you want to get straight to the answer" << endl
-         << "      '2' to guess a single word" << endl
+         << "      '2' to guess a single letter" << endl
          << "*If you guess the answer wrong, you will lose immidiately, be careful!" << endl;
     char x;
     while(true){
