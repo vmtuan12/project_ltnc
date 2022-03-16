@@ -19,15 +19,15 @@ SDL_Texture baseObject::*getObj(const std::string file_name)
     return obj;
 }
 */
-bool baseObject::loadImg(const std::string file_name)
+void baseObject::loadImg(const std::string file_name, SDL_Renderer *ren)
 {
-    obj = imageFunc::loadTexture(file_name,renderer);
-    if(obj == NULL) return false;
-    return true;
+    obj = imageFunc::loadTexture(file_name,ren);
+    //if(obj == NULL) return false;
+    //return true;
 }
 
-void baseObject::show()
+void baseObject::show(SDL_Renderer *ren)
 {
-    if(obj != NULL) imageFunc::renderTexture(obj,renderer,rect.x,rect.y,70,120);
+    if(obj != NULL) imageFunc::renderTexture(obj,ren,rect.x,rect.y,70,120);
 }
 

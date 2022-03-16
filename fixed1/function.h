@@ -5,12 +5,14 @@
 #include <windows.h>
 #include <string.h>
 #include <SDL.h>
+#include <vector>
+
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 650;
-const std::string WINDOW_TITLE = "An Implementation of Code.org Painter";
+const std::string WINDOW_TITLE = "dep trai vkl";
 
-//static SDL_Texture *background = NULL, *control = NULL, *car = NULL;
+static SDL_Texture *background = NULL, *control = NULL;
 static SDL_Event event;
 static SDL_Window* window;
 static SDL_Renderer* renderer;
@@ -34,7 +36,10 @@ namespace imageFunc
     void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y);
     void renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int h);
 
-    //void moving(SDL_Event e, int &x, int &y, int &step);
+    bool load_img(SDL_Renderer *ren);
+    void del_img();
+
+    void load_bgr(SDL_Renderer *ren);
 }
 
 

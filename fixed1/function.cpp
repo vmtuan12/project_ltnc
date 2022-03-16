@@ -23,6 +23,7 @@ void func::initSDL(SDL_Window* &window, SDL_Renderer* &renderer)
 
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED |
                                               SDL_RENDERER_PRESENTVSYNC);
+
     //Khi chạy ở máy ảo (ví dụ tại máy tính trong phòng thực hành ở trường)
     //renderer = SDL_CreateSoftwareRenderer(SDL_GetWindowSurface(window));
     if (renderer == nullptr) func::logSDLError(std::cout, "CreateRenderer", true);
@@ -94,9 +95,3 @@ void imageFunc::renderTexture(SDL_Texture *tex, SDL_Renderer *ren, int x, int y,
     //(ảnh sẽ co dãn cho khớp với kích cỡ mới)
 	SDL_RenderCopy(ren, tex, NULL, &dst);
 }
-/*
-void imageFunc::moving(SDL_Event e, int &x, int &y, int &step)
-{
-
-}
-*/
