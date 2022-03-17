@@ -16,9 +16,10 @@ public:
     }
     SDL_Rect getRect(){return rect;}
     //SDL_Texture *getObj(const std::string  file_name);
+    SDL_Rect rect;
 protected:
     SDL_Texture *obj;
-    SDL_Rect rect;
+    //SDL_Rect rect;
 
 };
 

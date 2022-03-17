@@ -24,6 +24,10 @@ int main(int argc, char* argv[])
     //car.show(renderer);
     //SDL_RenderPresent(renderer);
 
+    enemy *p_enemy = new enemy();
+    p_enemy->loadImg("car/pp.bmp",renderer);
+    p_enemy->setRect(27,40);
+
     while(true){
         SDL_Delay(10);
 
@@ -40,14 +44,16 @@ int main(int argc, char* argv[])
 
 
         for(int i = 0; i < car.getAmmo().size(); i++){
-            std::cout << car.getAmmo().size() << endl;
+            //std::cout << car.getAmmo().size() << endl;
             std::vector<rocket*> ammo_quantity = car.getAmmo();
+            cout << ammo_quantity.size() << endl;
             rocket* p_ammo = ammo_quantity.at(i);
             if(p_ammo != NULL){
                 if(p_ammo->check_fired()){
 
                     p_ammo->show(renderer);                       // them ham dan bay
-                    p_ammo->moving(SCREEN_WIDTH,SCREEN_HEIGHT);
+                    p_ammo->moving(0,0);
+                    //cout << p_ammo->rect.y << endl;
                     //SDL_RenderPresent(renderer);
                 }
                 else{
@@ -62,6 +68,9 @@ int main(int argc, char* argv[])
             }
 
         }
+
+        p_enemy->show(renderer);
+        p_enemy->movingControl(SCREEN_WIDTH,SCREEN_HEIGHT);
         SDL_RenderPresent(renderer);
 
     }
@@ -112,22 +121,23 @@ void player::inputKey(SDL_Event e)
             if(rect.x < 375) rect.x = (rect.x + step) % SCREEN_WIDTH;
         }
         if (e.key.keysym.sym == SDLK_s){
-            step = 60;
+            step = 10;
             if(rect.y != 510) rect.y = (rect.y + step) % SCREEN_HEIGHT;
         }
         if (e.key.keysym.sym == SDLK_w){
-            step = 60;
+            step = 10;
             if(rect.y > 100) rect.y = (rect.y + SCREEN_HEIGHT - step) % SCREEN_HEIGHT;
         }
-        if(e.key.keysym.sym == SDLK_j){
-            rocket* pAmmo = new rocket();
 
-            pAmmo->setSize(AMMO_WITDH,AMMO_HEIGHT);
-            pAmmo->loadImg("item/rocket.bmp",renderer);                 //need to fix renderer
-            pAmmo->setRect(this->rect.x,this->rect.y - 120);
-            pAmmo->add_fired(true);
+    }
+    if(e.type == SDL_MOUSEBUTTONDOWN){
+        rocket* pAmmo = new rocket();
 
-            ammoNum.push_back(pAmmo);
-        }
+        pAmmo->setSize(AMMO_WITDH,AMMO_HEIGHT);
+        pAmmo->loadImg("item/rocket.bmp",renderer);
+        pAmmo->setRect(this->rect.x,this->rect.y - 120);
+        pAmmo->add_fired(true);
+
+        ammoNum.push_back(pAmmo);
     }
 }

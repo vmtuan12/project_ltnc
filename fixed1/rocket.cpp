@@ -21,8 +21,9 @@ void rocket::inputKey(SDL_Event e)
 
 void rocket::moving(const int &x_limit, const int &y_limit)
 {
-    rect.y -= 60;
+    rect.y -= 10;
     if(rect.y < y_limit) fired = false;
+    else fired = true;
 }
 
 

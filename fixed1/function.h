@@ -14,8 +14,15 @@ const std::string WINDOW_TITLE = "dep trai vkl";
 
 static SDL_Texture *background = NULL, *control = NULL;
 static SDL_Event event;
-static SDL_Window* window;
-static SDL_Renderer* renderer;
+static SDL_Window* window = NULL;
+static SDL_Renderer* renderer = NULL;
+/*
+static int rocket_quantity = 0;
+static int HP = 20;
+static int linken = 0;
+static int blademail = 0;
+static int point = 0;
+*/
 
 namespace func
 {
