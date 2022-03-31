@@ -32,13 +32,13 @@ void enemy::loadEnemy(SDL_Renderer *ren, enemy *ENEMYS)
         if(p_enemy != NULL){
 
             if(i == 0 || i == 3) rand_x = 1 + rand()%(2+1-1);           //need to fix
-            if(i == 1 || i == 6) rand_x = 3 + rand()%(4+1-3);
-            if(i == 2 || i == 5) rand_x = 5 + rand()%(6+1-5);
-            if(i == 4 || i == 7 || i == 8 || i == 9) rand_x = 1 + rand()%6;
+            else if(i == 1 || i == 6) rand_x = 3 + rand()%(4+1-3);
+            else if(i == 2 || i == 5) rand_x = 5 + rand()%(6+1-5);
+            else rand_x = 1 + rand()%6;
             //rand_x = 1 + rand()%6;
 
             if(i == 0 || i == 1) p_enemy->loadImg("car/enemy_pp.bmp",ren);                    //load enemy
-            else if(i == 6) p_enemy->loadImg("car/enemy_yel.bmp",ren);
+            else if(i == 6 || i == 8) p_enemy->loadImg("car/enemy_yel.bmp",ren);
             else if(i == 2 || i == 3) p_enemy->loadImg("car/enemy_black.bmp",ren);
             else p_enemy->loadImg("car/police.bmp",ren);
 
@@ -51,7 +51,7 @@ void enemy::loadEnemy(SDL_Renderer *ren, enemy *ENEMYS)
     }
 }
 
-void enemy::movingControl(int const &x_limit, int const &y_limit)
+void enemy::movingControl(int const &x_limit, int const &y_limit)               //di chuyen enemy
 {
     srand((int)time(0));
     rect.y += y_val;
@@ -100,7 +100,7 @@ void enemy::loadEnemyAmmo(rocket *eAmmo, SDL_Renderer *ren)      //load dan enem
         eAmmo->loadImg("item/enemy.bmp",ren);
         eAmmo->add_fired(true);
         eAmmo->setSize(AMMO_WITDH,AMMO_HEIGHT);
-        eAmmo->set_y(12);                               //speed rocket
+        eAmmo->set_y(14);                               //speed rocket
         eAmmo->setRect(rect.x,rect.y + enemy_height);
 
         ammoNum.push_back(eAmmo);
@@ -114,7 +114,7 @@ void enemy::enemyFire(const int &x_limit, const int &y_limit, SDL_Renderer *ren)
         if(eAmmo != NULL){
             if(eAmmo->check_fired()){
                 eAmmo->show(ren);
-                eAmmo->reverseMoving(SCREEN_WIDTH-300,SCREEN_HEIGHT);
+                eAmmo->reverseMoving(SCREEN_WIDTH-300,SCREEN_HEIGHT);       //dan bay
             }
             else{
                 eAmmo->add_fired(true);                             //doi trang thai fired = true
@@ -139,28 +139,22 @@ void enemy::ingameEnemy(enemy *ENEMYS, SDL_Renderer *ren)               //show e
 
 void enemy::changeSpeed(enemy *ENEMYS)
 {
-    if(score >= 20){
+    if(score >= 60){
         for(int j = 0; j < enemy_quantity; j++){
             enemy *p_enemy = ENEMYS + j;
             p_enemy->set_y(speed[1]);
         }
     }
-    if(score >= 40){
+    if(score >= 100){
         for(int j = 0; j < enemy_quantity; j++){
             enemy *p_enemy = ENEMYS + j;
             p_enemy->set_y(speed[2]);
         }
     }
-    if(score >= 60){
+    if(score >= 130){
         for(int j = 0; j < enemy_quantity; j++){
             enemy *p_enemy = ENEMYS + j;
             p_enemy->set_y(speed[3]);
-        }
-    }
-    if(score >= 80){
-        for(int j = 0; j < enemy_quantity; j++){
-            enemy *p_enemy = ENEMYS + j;
-            p_enemy->set_y(speed[4]);
         }
     }
 }

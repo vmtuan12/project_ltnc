@@ -45,10 +45,7 @@ int main(int argc, char* argv[])
 
         SDL_RenderClear(renderer);                      //load bgr + car
 
-        bgr_y += 3;
-        imageFunc::load_bgr(renderer,bgr_y);
-        if(bgr_y >= SCREEN_HEIGHT) bgr_y = 0;
-
+        imageFunc::load_bgr(renderer);                  //di chuyen man hinh
 
         car.show(renderer);
         car.loadPlayerAmmo(renderer);                   //load rocket cho player
@@ -63,6 +60,7 @@ int main(int argc, char* argv[])
     }
 
     delete []ENEMYS;
+    delete []p_item;
     imageFunc::del_img_bgr();
     func::quitSDL(window, renderer);
     return 0;

@@ -14,10 +14,11 @@ const int SCREEN_WIDTH = 1020;
 const int SCREEN_HEIGHT = 650;
 const int enemy_quantity = 8;
 const int item_quantity = 5;
-static int speed[5] = {6,7,8,9,10};
+static int speed[4] = {8,9,10,11};
 
 const std::string WINDOW_TITLE = "dep trai vkl";
 static int bgr_y = 0;
+static int speed_bgr = 6;
 
 static SDL_Texture *background = NULL, *control = NULL;
 static SDL_Event event;
@@ -54,7 +55,9 @@ namespace imageFunc
     bool load_img_bgr(SDL_Renderer *ren);
     void del_img_bgr();
 
-    void load_bgr(SDL_Renderer *ren, int y);
+    void load_bgr(SDL_Renderer *ren);
+
+    bool collision(const SDL_Rect &obj1, const SDL_Rect &obj2);
 }
 
 

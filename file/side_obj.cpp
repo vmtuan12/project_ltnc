@@ -25,7 +25,7 @@ void item::movingControl(int const &x_limit, int const &y_limit)
         int rand_x = 1 + rand()%6;
         rect.x = 22 + 90 + (rand_x-1)*90;
 
-        rect.y = -1000;
+        rect.y = -10000;
     }
 }
 
@@ -47,7 +47,7 @@ void item::loadItem(SDL_Renderer *ren, item *p_item)
             rand_x = 1 + rand()%6;
             rand_y = 100 + rand()%(120 + 1 - 100);
             single_item->setRect(22 + 90 + (rand_x-1)*90,-i*rand_y);
-            single_item->set_y(3);                                       //set y_val cho speed
+            single_item->set_y(speed_bgr);                                       //set y_val cho speed
         }
     }
 
