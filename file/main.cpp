@@ -51,11 +51,50 @@ int main(int argc, char* argv[])
         car.loadPlayerAmmo(renderer);                   //load rocket cho player
 
         ENEMYS->changeSpeed(ENEMYS);
-        ENEMYS->ingameEnemy(ENEMYS,renderer);           //enemy di chuyen + ban' dan
+        //ENEMYS->ingameEnemy(ENEMYS,renderer,endGame,enemy_die,car.getRect(),car.getAmmo());           //enemy di chuyen + ban' dan
+
+        for(int j = 0; j < enemy_quantity; j++){
+            enemy *p_enemy = ENEMYS + j;
+            SDL_Rect enemyRocket_rect;
+            if(p_enemy != NULL){
+                p_enemy->movingControl(SCREEN_WIDTH,SCREEN_HEIGHT);                          //enemy move
+                p_enemy->show(renderer);
+                if(j == 7 || j == 5 || j == 4) p_enemy->enemyFire(SCREEN_WIDTH,SCREEN_HEIGHT,renderer,enemyRocket_rect);      //dan
+            }
+
+            bool rocketed = imageFunc::collision(car.getRect(),enemyRocket_rect);
+            bool car_collision = imageFunc::collision(car.getRect(),p_enemy->getRect());
+            if(car_collision == true || rocketed == true) endGame = true;
+
+            std::vector<rocket*> p_rocket = car.getAmmo();
+            for(int i = 0; i < p_rocket.size(); i++){
+                rocket *roc = p_rocket.at(i);
+                if(roc != NULL){
+                    bool rocket_collision = imageFunc::collision(roc->getRect(),p_enemy->getRect());
+                    if(rocket_collision){
+                        car.eraseRocket(i);
+
+
+                    }
+                }
+            }
+
+        }
+
         p_item->ingameItem(p_item,renderer);
 
-
         SDL_RenderPresent(renderer);
+
+
+        if(endGame){
+            if(MessageBox(NULL,"YOU DIED","ABC",MB_OK) == IDOK){
+                delete []ENEMYS;
+                delete []p_item;
+                imageFunc::del_img_bgr();
+                func::quitSDL(window, renderer);
+                return 0;
+            }
+        }
 
     }
 

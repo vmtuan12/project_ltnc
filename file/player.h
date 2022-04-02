@@ -15,6 +15,7 @@ public:
 
     void setAmmo(std::vector<rocket*> ammo_) {ammoNum = ammo_;}
     std::vector<rocket*> getAmmo() const {return ammoNum;}
+    void eraseRocket(const int &pos);
 
 protected:
     int x_val;

@@ -22,7 +22,7 @@ public:
     void itemShow(SDL_Renderer *ren);
 
     void loadImg(const std::string file_name, SDL_Renderer *ren);
-    void setRect(const int &x,const int &y){
+    void setRect(const int &x, const int &y){
         rect.x = x;
         rect.y = y;
     }

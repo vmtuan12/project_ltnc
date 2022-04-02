@@ -28,7 +28,7 @@ void baseObject::ammoShow(SDL_Renderer *ren)                                    
     if(obj != NULL) imageFunc::renderTexture(obj,ren,rect.x,rect.y,AMMO_WITDH,AMMO_HEIGHT);
 }
 
-void baseObject::itemShow(SDL_Renderer *ren)
+void baseObject::itemShow(SDL_Renderer *ren)                                    //ham` cho item
 {
     if(obj != NULL) imageFunc::renderTexture(obj,ren,rect.x,rect.y,itemW,itemH);
 }

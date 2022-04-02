@@ -61,7 +61,7 @@ void enemy::movingControl(int const &x_limit, int const &y_limit)               
     if(rect.y >= y_limit){                                          //need to fix
 
         score++;
-        std::cout << score << std::endl;
+        //std::cout << score << std::endl;
 
         if(temp == 0 || temp == 3) rand_x = 1 + rand()%(2+1-1);
         else if(temp == 1 || temp == 6) rand_x = 3 + rand()%(4+1-3);
@@ -94,27 +94,28 @@ void enemy::input(SDL_Event e)
 
 }
 
-void enemy::loadEnemyAmmo(rocket *eAmmo, SDL_Renderer *ren)      //load dan enemy
+void enemy::loadEnemyAmmo(rocket *eAmmo, SDL_Renderer *ren)                 //load dan enemy
 {
     if(eAmmo != NULL){
         eAmmo->loadImg("item/enemy.bmp",ren);
         eAmmo->add_fired(true);
         eAmmo->setSize(AMMO_WITDH,AMMO_HEIGHT);
-        eAmmo->set_y(14);                               //speed rocket
+        eAmmo->set_y(14);                                           //speed rocket
         eAmmo->setRect(rect.x,rect.y + enemy_height);
 
         ammoNum.push_back(eAmmo);
     }
 }
 
-void enemy::enemyFire(const int &x_limit, const int &y_limit, SDL_Renderer *ren)        //enemy ban dan
+void enemy::enemyFire(const int &x_limit, const int &y_limit, SDL_Renderer *ren, SDL_Rect &enemyRocket_rect)        //enemy ban dan
 {
     for(long long unsigned int i = 0; i < ammoNum.size(); i++){
         rocket *eAmmo = ammoNum.at(i);
         if(eAmmo != NULL){
-            if(eAmmo->check_fired()){
+            if(eAmmo->check_fired()){                                       //neu trang thai fired = true
+                enemyRocket_rect = eAmmo->getRect();
                 eAmmo->show(ren);
-                eAmmo->reverseMoving(SCREEN_WIDTH-300,SCREEN_HEIGHT);       //dan bay
+                eAmmo->reverseMoving(SCREEN_WIDTH-300,SCREEN_HEIGHT);       //ban dan
             }
             else{
                 eAmmo->add_fired(true);                             //doi trang thai fired = true
@@ -124,17 +125,35 @@ void enemy::enemyFire(const int &x_limit, const int &y_limit, SDL_Renderer *ren)
     }
 }
 
-void enemy::ingameEnemy(enemy *ENEMYS, SDL_Renderer *ren)               //show enemy + di chuyen + ban
-{
+void enemy::ingameEnemy(enemy *ENEMYS, SDL_Renderer *ren, bool &die, const SDL_Rect &car, std::vector<rocket*> ROCKET)//show enemy + di chuyen + ban
+{/*
     for(int j = 0; j < enemy_quantity; j++){
         enemy *p_enemy = ENEMYS + j;
 
         if(p_enemy != NULL){
-            p_enemy->show(ren);
             p_enemy->movingControl(SCREEN_WIDTH,SCREEN_HEIGHT);                          //enemy move
+            p_enemy->show(ren);
             if(j == 7 || j == 5 || j == 4) p_enemy->enemyFire(SCREEN_WIDTH,SCREEN_HEIGHT,ren);      //dan
         }
-    }
+
+        bool car_collision = imageFunc::collision(car,p_enemy->getRect());
+        if(car_collision){
+            die = true;
+            return;
+        }
+
+        std::vector<rocket*> p_rocket = ROCKET;
+        for(int i = 0; i < p_rocket.size(); i++){
+            rocket *roc = p_rocket.at(i);
+            if(roc != NULL){
+                bool rocket_collision = imageFunc::collision(roc->getRect(),p_enemy->getRect());
+                if(rocket_collision){
+
+                }
+            }
+        }
+
+    }*/
 }
 
 void enemy::changeSpeed(enemy *ENEMYS)
@@ -157,4 +176,14 @@ void enemy::changeSpeed(enemy *ENEMYS)
             p_enemy->set_y(speed[3]);
         }
     }
+}
+
+void enemy::enemy_die(enemy *ENEMY, const int &pos)
+{/*
+    enemy *p_enemy = ENEMY.at(pos);
+    ENEMY.erase(ENEMY.begin() + pos);
+    if(p_enemy != NULL){
+        delete p_enemy;
+        p_enemy = NULL;
+    }*/
 }

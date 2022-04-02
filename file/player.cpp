@@ -75,6 +75,21 @@ void player::loadPlayerAmmo(SDL_Renderer *ren)
                 }
             }
         }
-
     }
 }
+
+void player::eraseRocket(const int &pos)
+{
+    if(ammoNum.size() > 0 && 0 <= pos && pos < ammoNum.size()){
+        rocket *p_rocket = ammoNum.at(pos);
+        ammoNum.erase(ammoNum.begin() + pos);
+
+        if(p_rocket != NULL){
+            delete p_rocket;
+            p_rocket = NULL;
+        }
+    }
+}
+
+
+

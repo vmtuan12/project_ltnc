@@ -21,14 +21,14 @@ void rocket::inputKey(SDL_Event e)
 
 }
 
-void rocket::moving(const int &x_limit, const int &y_limit)
+void rocket::moving(const int &x_limit, const int &y_limit)                 //dan player
 {
     rect.y -= y_val;
     if(rect.y < y_limit) fired = false;
     else fired = true;
 }
 
-void rocket::reverseMoving(const int &x_limit, const int &y_limit)
+void rocket::reverseMoving(const int &x_limit, const int &y_limit)          //dan enemy
 {
     rect.y += y_val;
     if(rect.y > y_limit) fired = false;
