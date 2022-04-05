@@ -56,7 +56,7 @@ void enemy::movingControl(int const &x_limit, int const &y_limit)               
     srand((int)time(0));
     rect.y += y_val;
 
-    int rand_x, rand_y1, rand_y2, rand_y3;
+    int rand_x;
     static int temp = 0;
     if(rect.y >= y_limit){                                          //need to fix
 
@@ -100,7 +100,7 @@ void enemy::loadEnemyAmmo(rocket *eAmmo, SDL_Renderer *ren)                 //lo
         eAmmo->loadImg("item/enemy.bmp",ren);
         eAmmo->add_fired(true);
         eAmmo->setSize(AMMO_WITDH,AMMO_HEIGHT);
-        eAmmo->set_y(13);                                           //speed rocket
+        eAmmo->set_y(rocSpeed[0]);                                           //speed rocket
         eAmmo->setRect(rect.x,rect.y + enemy_height);
 
         ammoNum.push_back(eAmmo);
@@ -109,18 +109,20 @@ void enemy::loadEnemyAmmo(rocket *eAmmo, SDL_Renderer *ren)                 //lo
 
 void enemy::enemyFire(const int &x_limit, const int &y_limit, SDL_Renderer *ren, SDL_Rect &enemyRocket_rect)        //enemy ban dan
 {
-    for(long long unsigned int i = 0; i < ammoNum.size(); i++){
-        rocket *eAmmo = ammoNum.at(i);
+    if(score >= 30){
+        for(long long unsigned int i = 0; i < ammoNum.size(); i++){
+            rocket *eAmmo = ammoNum.at(i);
 
-        if(eAmmo != NULL){
-            if(eAmmo->check_fired()){                                       //neu trang thai fired = true
-                enemyRocket_rect = eAmmo->getRect();
-                eAmmo->show(ren);
-                eAmmo->reverseMoving(SCREEN_WIDTH-300,SCREEN_HEIGHT);       //ban dan
-            }
-            else{
-                eAmmo->add_fired(true);                             //doi trang thai fired = true
-                eAmmo->setRect(rect.x,rect.y + enemy_height);
+            if(eAmmo != NULL){
+                if(eAmmo->check_fired()){                                       //neu trang thai fired = true
+                    enemyRocket_rect = eAmmo->getRect();
+                    eAmmo->show(ren);
+                    eAmmo->reverseMoving(SCREEN_WIDTH-300,SCREEN_HEIGHT);       //ban dan
+                }
+                else{
+                    eAmmo->add_fired(true);                             //doi trang thai fired = true
+                    eAmmo->setRect(rect.x,rect.y + enemy_height);
+                }
             }
         }
     }
@@ -169,26 +171,33 @@ void enemy::changeSpeed(enemy *ENEMYS)
         for(int j = 0; j < enemy_quantity; j++){
             enemy *p_enemy = ENEMYS + j;
             p_enemy->set_y(speed[2]);
+            p_enemy->changeRocketSpeed(rocSpeed[1]);
         }
+
     }
     if(score >= 130){
         for(int j = 0; j < enemy_quantity; j++){
             enemy *p_enemy = ENEMYS + j;
             p_enemy->set_y(speed[3]);
+            p_enemy->changeRocketSpeed(rocSpeed[2]);
+
         }
     }
 }
 
-void enemy::enemy_die()
+void enemy::enemy_die()             //+y -> over limit -> back to -300
 {
     rect.y += 1000;
+    for(int i = 0; i < ammoNum.size(); i++){
+        rocket *e_roc = ammoNum.at(i);
+        if(e_roc != NULL) e_roc->rect.y = 1000;
+    }
 }
 
-void enemy::eraseRocket(const int &pos)
-{/*
+void enemy::changeRocketSpeed(const int &speed)
+{
     for(int i = 0; i < ammoNum.size(); i++){
-        rocket *e_roc = ammoNum.at(pos);
-        e_roc->rect.y += 1500;
-    }*/
+        ammoNum.at(i)->set_y(speed);
+    }
 }
 

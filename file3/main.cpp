@@ -9,7 +9,6 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-
     srand((int)time(0));
 
     func::initSDL(window, renderer);
@@ -31,6 +30,8 @@ int main(int argc, char* argv[])
 
     item *p_item = new item[item_quantity];
     p_item->loadItem(renderer,p_item);
+
+    int protection = 0;
 
     while(true){
         SDL_Delay(10);
@@ -64,7 +65,7 @@ int main(int argc, char* argv[])
                     enemy *pp_enemy = ENEMYS + jj;
                     bool enemy_col = imageFunc::collision(p_enemy->getRect(),pp_enemy->getRect());
                     if(enemy_col){
-                        p_enemy->rect.y = -500;
+                        p_enemy->setRect(22 + 90 + (rand()%6)*90,-500);
                         //p_enemy->movingControl(SCREEN_WIDTH,SCREEN_HEIGHT);
                         break;
                     }
@@ -76,7 +77,16 @@ int main(int argc, char* argv[])
 
             bool rocketed = imageFunc::collision(car.getRect(),enemyRocket_rect);
             bool car_collision = imageFunc::collision(car.getRect(),p_enemy->getRect());
-            //if(car_collision == true || rocketed == true) endGame = true;                    //va cham = endgame
+            if(car_collision == true || rocketed == true){                          //fix rocket
+                if(rocketed){
+                    if(protection == 1) protection = 0;
+                    else protection = -1;
+                }
+                else protection -= 1;
+                cout << protection << endl;
+                if(protection == 0) p_enemy->enemy_die();
+                if(protection <= -1) endGame = true;                    //va cham = endgame
+            }
 
             std::vector<rocket*> p_rocket = car.getAmmo();
             for(int i = 0; i < p_rocket.size(); i++){
@@ -115,13 +125,20 @@ int main(int argc, char* argv[])
             bool pickItem = imageFunc::collision(car.getRect(),single_item->getRect());
             if(pickItem){
                 single_item->picked(it,rocket_quantity,score);
+                if(it == 1){
+                    car.changeCar(imageFunc::loadTexture("car/black.bmp",renderer));                //fixing
+                    protection = 1;
+                }
+
             }
         }
-
+        if(protection == 0){
+            car.changeCar(imageFunc::loadTexture("car/green.bmp",renderer));
+        }
         SDL_RenderPresent(renderer);
 
 
-        if(endGame){
+        if(endGame == true){
             if(MessageBox(NULL,"YOU DIED","ABC",MB_OK) == IDOK){
                 delete []ENEMYS;
                 delete []p_item;

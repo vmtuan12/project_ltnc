@@ -40,7 +40,7 @@ void player::inputKey(SDL_Event e, SDL_Renderer *ren, int &roc_quan)
         }
         if (e.key.keysym.sym == SDLK_j){
             if(roc_quan > 0){
-                std::cout << roc_quan << std::endl;
+                //std::cout << roc_quan << std::endl;
                 rocket* pAmmo = new rocket();
 
                 pAmmo->setSize(AMMO_WITDH,AMMO_HEIGHT);

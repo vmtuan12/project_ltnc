@@ -7,6 +7,7 @@
 #include <SDL.h>
 #include <vector>
 #include <time.h>
+#include <sstream>
 #include <stdlib.h>
 
 
@@ -15,6 +16,7 @@ const int SCREEN_HEIGHT = 650;
 const int enemy_quantity = 8;
 const int item_quantity = 5;
 static int speed[4] = {8,9,10,11}; //8
+static int rocSpeed[3] = {12,13,15};
 
 const std::string WINDOW_TITLE = "dep trai vkl";
 static int bgr_y = 0;

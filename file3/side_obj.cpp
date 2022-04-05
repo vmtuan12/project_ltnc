@@ -25,7 +25,7 @@ void item::movingControl(int const &x_limit, int const &y_limit)
         int rand_x = 1 + rand()%6;
         rect.x = 22 + 90 + (rand_x-1)*90;
 
-        rect.y = -7000;
+        rect.y = -1000;
     }
 }
 

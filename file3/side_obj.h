@@ -3,6 +3,7 @@
 
 #include "baseObject.h"
 #include "function.h"
+#include "player.h"
 
 class item : public baseObject
 {

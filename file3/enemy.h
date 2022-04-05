@@ -4,7 +4,6 @@
 #include "function.h"
 #include "baseObject.h"
 #include "rocket.h"
-#include "player.h"
 
 int const enemy_width = 45;
 int const enemy_height = 70;
@@ -33,7 +32,7 @@ public:
     void ingameEnemy(enemy *ENEMYS, SDL_Renderer *ren, bool &die, const SDL_Rect &car,  std::vector<rocket*> ROCKET);
     void changeSpeed(enemy *ENEMYS);
     void enemy_die();
-    void eraseRocket(const int &pos);
+    void changeRocketSpeed(const int &speed);
 
 protected:
     int x_val;

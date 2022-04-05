@@ -12,6 +12,7 @@ public:
 
     void inputKey(SDL_Event e, SDL_Renderer *ren, int &roc_quan);
     void loadPlayerAmmo(SDL_Renderer *ren);
+    void changeCar(SDL_Texture *newCar){obj = newCar;}
 
     void setAmmo(std::vector<rocket*> ammo_) {ammoNum = ammo_;}
     std::vector<rocket*> getAmmo() const {return ammoNum;}
