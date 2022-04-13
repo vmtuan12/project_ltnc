@@ -10,7 +10,7 @@ public:
     player();
     ~player();
 
-    void inputKey(SDL_Event e, SDL_Renderer *ren, int &roc_quan, Mix_Chunk *roc_sound);
+    void inputKey(SDL_Event e, SDL_Renderer *ren, int &roc_quan, Mix_Chunk *roc_sound, Mix_Music *gMusic);
     void loadPlayerAmmo(SDL_Renderer *ren);
     void changeCar(SDL_Texture *newCar){obj = newCar;}
 

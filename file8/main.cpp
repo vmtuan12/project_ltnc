@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
                 func::quitSDL(window,renderer);
                 return 0;
             }
-            car.inputKey(event,renderer,rocket_quantity,player_roc);
+            car.inputKey(event,renderer,rocket_quantity,player_roc,music);
         }
 
         SDL_RenderClear(renderer);

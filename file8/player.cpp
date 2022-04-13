@@ -17,7 +17,7 @@ player::~player()
     SDL_DestroyTexture(obj);
 }
 
-void player::inputKey(SDL_Event e, SDL_Renderer *ren, int &roc_quan, Mix_Chunk *roc_sound)
+void player::inputKey(SDL_Event e, SDL_Renderer *ren, int &roc_quan, Mix_Chunk *roc_sound, Mix_Music *gMusic)
 {
     int step = 90;
     if(e.type == SDL_KEYDOWN)
@@ -54,9 +54,22 @@ void player::inputKey(SDL_Event e, SDL_Renderer *ren, int &roc_quan, Mix_Chunk *
                 roc_quan--;
             }
         }
-    }
-    if(e.type == SDL_MOUSEBUTTONDOWN){
-
+        if (e.key.keysym.sym == SDLK_p){
+            if(Mix_PlayingMusic() == 0) Mix_PlayMusic(gMusic,-1);
+            else{
+                //If the music is paused
+                if( Mix_PausedMusic() == 1 ){
+                //Resume the music
+                    Mix_ResumeMusic();
+                }
+                //If the music is playing
+                else{
+                    //Pause the music
+                    Mix_PauseMusic();
+                }
+            }
+        }
+        if (e.key.keysym.sym == SDLK_0) Mix_HaltMusic();
     }
 }
 
