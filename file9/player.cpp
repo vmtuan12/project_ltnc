@@ -15,9 +15,10 @@ player::player()
 player::~player()
 {
     SDL_DestroyTexture(obj);
+    ammoNum.clear();
 }
 
-void player::inputKey(SDL_Event e, SDL_Renderer *ren, int &roc_quan, Mix_Chunk *roc_sound, Mix_Music *gMusic)
+void player::inputKey(SDL_Event e, SDL_Renderer *ren, int &roc_quan, Mix_Chunk *roc_sound, Mix_Music *gMusic, bool &musP)
 {
     int step = 90;
     if(e.type == SDL_KEYDOWN)
@@ -55,17 +56,23 @@ void player::inputKey(SDL_Event e, SDL_Renderer *ren, int &roc_quan, Mix_Chunk *
             }
         }
         if (e.key.keysym.sym == SDLK_p){
-            if(Mix_PlayingMusic() == 0) Mix_PlayMusic(gMusic,-1);
+
+            if(Mix_PlayingMusic() == 0){
+                Mix_PlayMusic(gMusic,-1);
+                musP = true;
+            }
             else{
                 //If the music is paused
                 if( Mix_PausedMusic() == 1 ){
                 //Resume the music
                     Mix_ResumeMusic();
+                    musP = true;
                 }
                 //If the music is playing
                 else{
                     //Pause the music
                     Mix_PauseMusic();
+                    musP = false;
                 }
             }
         }

@@ -184,7 +184,7 @@ void enemy::changeSpeed(enemy *ENEMYS, int &scr)
         }
 
     }
-    if(scr >= 130){
+    if(scr >= 150){
         for(int j = 0; j < enemy_quantity; j++){
             enemy *p_enemy = ENEMYS + j;
             p_enemy->set_y(speed[3]);

@@ -80,10 +80,10 @@ void textObj::setAlpha(Uint8 alpha)
 
 void textObj::renderText(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip, SDL_Renderer *gRenderer)
 {
-    clip = NULL;
+    /*clip = NULL;
     angle = 0.0;
     center = NULL;
-    flip = SDL_FLIP_NONE;
+    flip = SDL_FLIP_NONE;*/
 
 	//Set rendering space and render to screen
 	SDL_Rect renderQuad = {x, y, mWidth, mHeight};

@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
         return 0;
     }*/
 
-    music = Mix_LoadMUS("sound/armed.wav");
+    music = Mix_LoadMUS("sound/save_your_tears.wav");
     player_roc = Mix_LoadWAV("sound/player_rocket.wav");
     e_dis = Mix_LoadWAV("sound/enemy_disa.wav");
     col_e = Mix_LoadWAV("sound/col_e.wav");
@@ -38,9 +38,11 @@ int main(int argc, char* argv[])
     timelockSound = Mix_LoadWAV("sound/timelock.wav");
     butSound = Mix_LoadWAV("sound/evasion.wav");
     bmSound = Mix_LoadWAV("sound/bm.wav");
-    Mix_VolumeMusic(5000);
+    Mix_VolumeChunk(col_e,30);
+    Mix_VolumeChunk(item_pick_up,50);
 
-    text_font = TTF_OpenFont("font/Montserrat-Bold.ttf",28);
+    text_font = TTF_OpenFont("font/Montserrat-Regular.ttf",70);
+    itemText_font = TTF_OpenFont("font/Montserrat-Regular.ttf",28);
 
     SDL_RenderClear(renderer);
 
@@ -58,19 +60,13 @@ int main(int argc, char* argv[])
     item *p_item = new item[item_quantity];                     //load item
     p_item->loadItem(renderer,p_item);
 
-    textObj ingameText;                                         //load text
-    SDL_Color textColor = {255,255,255};
-    if(!ingameText.loadFromRenderedText("Score: 0123456789",textColor,text_font,renderer))              //fixing
-    {
-        printf( "Failed to render text texture!\n" );
-        func::freeObj();
-        func::quitSDL(window,renderer);
-        return 0;
-    }
-    SDL_Rect* clip;
-    double angle;
-    SDL_Point* center;
-    SDL_RendererFlip flip;
+    textObj ingameTextScore, ingameTextArm, ingameTextEv, ingameTextLock, ingameTextRoc;                                         //load text
+    SDL_Color textColor, textColor0 = {255,255,255}, textColor100 = {51,153,255}, textColor200 = {255,51,255}, textColor500 = {255,102,102}, itemTextColor = {255,100,0};
+
+    SDL_Rect* clip = NULL;
+    double angle = 0.0;
+    SDL_Point* center = NULL;
+    SDL_RendererFlip flip = SDL_FLIP_NONE;
 
     while(true){
         fps_timer.start();
@@ -82,13 +78,13 @@ int main(int argc, char* argv[])
                 func::quitSDL(window,renderer);
                 return 0;
             }
-            car.inputKey(event,renderer,rocket_quantity,player_roc,music);
+            car.inputKey(event,renderer,rocket_quantity,player_roc,music,musicPlayed);
         }
 
         SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
         SDL_RenderClear(renderer);
 
-        imageFunc::load_bgr(renderer,speed_bgr,score);                  //di chuyen man hinh
+        imageFunc::load_bgr(renderer,speed_bgr,score,musicPlayed);                  //di chuyen man hinh
 
         car.show(renderer);
         car.loadPlayerAmmo(renderer);
@@ -100,7 +96,7 @@ int main(int argc, char* argv[])
         Uint32 time = SDL_GetTicks()/1000;
         string time_val = to_string(time);
         //cout << time_val << endl;
-        cout << score << endl;
+        //cout << score << endl;
         for(int j = 0; j < enemy_quantity; j++){
             enemy *p_enemy = ENEMYS + j;
             SDL_Rect enemyRocket_rect;
@@ -131,6 +127,7 @@ int main(int argc, char* argv[])
                 }
                 Mix_PlayChannel(-1,e_dis,0);
                 p_enemy->enemy_die();
+                score += 1;
             }
 
             if(rocketed){
@@ -151,6 +148,7 @@ int main(int argc, char* argv[])
                         Mix_PlayChannel(-1,e_dis,0);
                         car.eraseRocket(i);
                         p_enemy->enemy_die();
+                        score += 1;
                     }
                     /*if(roc_vs_roc){
                         p_enemy->eraseRoc();
@@ -195,8 +193,31 @@ int main(int argc, char* argv[])
             }
         }
 
+        imageFunc::renderTexture(imageFunc::loadTexture("item/cannon.bmp",renderer),renderer,5,300,itemW,itemH);
+        string igRocQuan = to_string(rocket_quantity);
+        if(!ingameTextRoc.loadFromRenderedText(igRocQuan,itemTextColor,itemText_font,renderer))              //fixing
+        {
+            cout << "Failed to render text texture!\n";
+            func::freeObj();
+            func::quitSDL(window,renderer);
+            return 0;
+        }
+        if(rocket_quantity < 100) ingameTextRoc.renderText(55,305,clip,angle,center,flip,renderer);
+        else ingameTextRoc.renderText(5,345,clip,angle,center,flip,renderer);
+
         if(armor > 0){                                      //armor time
             imageFunc::renderTexture(imageFunc::loadTexture("item/blademail.bmp",renderer),renderer,5,0,itemW,itemH);
+
+            string timeArmor = to_string(4-armTime.size());
+            if(!ingameTextArm.loadFromRenderedText(timeArmor,itemTextColor,itemText_font,renderer))              //fixing
+            {
+                cout << "Failed to render text texture!\n";
+                func::freeObj();
+                func::quitSDL(window,renderer);
+                return 0;
+            }
+            ingameTextArm.renderText(55,5,clip,angle,center,flip,renderer);
+
             if(time_val != s1) armTime.push_back(time_val);
             s1 = time_val;
             //cout << time_val << endl;
@@ -210,6 +231,17 @@ int main(int argc, char* argv[])
 
         if(timelock > 0){                                   //timelock time
             imageFunc::renderTexture(imageFunc::loadTexture("item/timelock.bmp",renderer),renderer,5,55,itemW,itemH);
+
+            string timeLockSkill = to_string(4-lockTime.size());
+            if(!ingameTextLock.loadFromRenderedText(timeLockSkill,itemTextColor,itemText_font,renderer))              //fixing
+            {
+                cout << "Failed to render text texture!\n";
+                func::freeObj();
+                func::quitSDL(window,renderer);
+                return 0;
+            }
+            ingameTextLock.renderText(55,60,clip,angle,center,flip,renderer);
+
             if(time_val != s2) lockTime.push_back(time_val);                        //fixing
             s2 = time_val;
             if(lockTime.size() == timelock*4){
@@ -220,6 +252,17 @@ int main(int argc, char* argv[])
 
         if(evasion > 0){                                    //evasion time
             imageFunc::renderTexture(imageFunc::loadTexture("item/butterfly.bmp",renderer),renderer,5,110,itemW,itemH);
+
+            string timeEv = to_string(6-evTime.size());
+            if(!ingameTextEv.loadFromRenderedText(timeEv,itemTextColor,itemText_font,renderer))              //fixing
+            {
+                cout << "Failed to render text texture!\n";
+                func::freeObj();
+                func::quitSDL(window,renderer);
+                return 0;
+            }
+            ingameTextEv.renderText(55,115,clip,angle,center,flip,renderer);
+
             if(time_val != s3) evTime.push_back(time_val);                        //fixing
             s3 = time_val;
             if(evTime.size() == evasion*6){
@@ -228,7 +271,19 @@ int main(int argc, char* argv[])
             }
         }
 
-        ingameText.renderText(720,50,clip,angle,center,flip,renderer);                                      //fixing
+        string igScore = to_string(score);
+        if(0 <= score && score <= 99) textColor = textColor0;
+        else if(100 <= score && score <= 199) textColor = textColor100;
+        else if(200 <= score && score <= 499) textColor = textColor200;
+        else textColor = textColor500;
+        if(!ingameTextScore.loadFromRenderedText(igScore,textColor,text_font,renderer))              //fixing
+        {
+            printf( "Failed to render text texture!\n" );
+            func::freeObj();
+            func::quitSDL(window,renderer);
+            return 0;
+        }
+        ingameTextScore.renderText(720,100,clip,angle,center,flip,renderer);                                      //fixing
 
         if(endGame == true){
             for(int exppp = 0; exppp < 4; exppp++){

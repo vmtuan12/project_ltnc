@@ -46,8 +46,9 @@ static Mix_Chunk *item_pick_up = NULL;
 static Mix_Chunk *timelockSound = NULL;
 static Mix_Chunk *butSound = NULL;
 static Mix_Chunk *bmSound = NULL;
+static bool musicPlayed;
 
-static TTF_Font *text_font = NULL;
+static TTF_Font *text_font = NULL, *itemText_font = NULL;
 
 namespace func
 {
@@ -72,7 +73,7 @@ namespace imageFunc
 
     bool load_img_bgr(SDL_Renderer *ren);
 
-    void load_bgr(SDL_Renderer *ren, int &spBgr, int &scr);
+    void load_bgr(SDL_Renderer *ren, int &spBgr,const int &scr, const bool &musP);
 
     bool collision(const SDL_Rect &obj1, const SDL_Rect &obj2);
 }

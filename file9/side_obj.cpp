@@ -78,7 +78,7 @@ void item::picked(const int &pos, int &roc_quan, int &p, int &arm, int &evade, i
         roc_quan++;
     }
     else if(pos == 2){
-        rect.y -= 5000;
+        rect.y -= 6000;
         tLock += 1;
     }
     else if(pos == 3){

@@ -39,8 +39,11 @@ void func::quitSDL(SDL_Window* window, SDL_Renderer* renderer)
     window = NULL;
     renderer = NULL;
     TTF_CloseFont(text_font);
+    TTF_CloseFont(itemText_font);
+    itemText_font = NULL;
     text_font = NULL;
     TTF_Quit();
+    IMG_Quit();
     SDL_Quit();
 }
 
@@ -74,6 +77,7 @@ void func::freeObj()
     timelockSound = NULL;
     butSound = NULL;
     bmSound = NULL;
+    Mix_Quit();
 
     SDL_DestroyTexture(background);
     SDL_DestroyTexture(control);
@@ -136,15 +140,19 @@ bool imageFunc::load_img_bgr(SDL_Renderer *ren)
     return true;
 }
 
-void imageFunc::load_bgr(SDL_Renderer *ren, int &spBgr, int &scr)
+void imageFunc::load_bgr(SDL_Renderer *ren, int &spBgr, const int &scr, const bool &musP)
 {
     if(scr == 60) spBgr = 7;
     if(scr == 100) spBgr = 8;                                      //in progress
+    if(scr == 200) spBgr = 9;
     bgr_y += spBgr;           //toc do di chuyen man hinh
 
     imageFunc::renderTexture(background, ren, 0, bgr_y, 720, SCREEN_HEIGHT);
     imageFunc::renderTexture(background, ren, 0, bgr_y-SCREEN_HEIGHT, 720, SCREEN_HEIGHT);
     imageFunc::renderTexture(control, ren, 720, 0);
+    if(musP) imageFunc::renderTexture(imageFunc::loadTexture("bgr/music.bmp",ren),ren,845,10,50,50);            //care
+    else imageFunc::renderTexture(imageFunc::loadTexture("bgr/nomusic.bmp",ren),ren,845,10,50,50);
+
     if(bgr_y >= SCREEN_HEIGHT) bgr_y = 0;
 }
 
