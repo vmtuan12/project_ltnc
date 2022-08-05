@@ -1,2 +1,1 @@
-UET MID-SEMESTER PROJECT
-ELDEN CAR BY VU MINH TUAN
+git cua minh tuan dep trai
